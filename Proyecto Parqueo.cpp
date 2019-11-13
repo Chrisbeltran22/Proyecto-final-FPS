@@ -1,13 +1,15 @@
 #include <iostream>
+#include <iomanip>
 #include <ctime>
-#include <stdlib.h>
+/*#include <stdlib.h>*/
 #include <fstream>
 
 using namespace std;
 
 int vehiculo;
 int espacio;
-int matrizespacio[3][5]={{1,2,3,4,5},{6,7,8,9,10},{11,12,13,14,15}};
+int matrizautos[2][5]={{1,2,3,4,5},{6,7,8,9,10}};
+int matrizbicimoto[2][5]={{11,12,13,14,15},{16,17,18,19,20}};
 
 int bicimotosalida(){
 	
@@ -24,51 +26,35 @@ int pago(){ //Función para cálcular el pago del usuario por el uso del parqueo.
 	sebas te toca hacer el cálculo.*/
 }
 
-int lugarauto(){
-    int filas = (sizeof(matrizespacio)/sizeof(matrizespacio[0]));
-    int columnas = (sizeof(matrizespacio[0])/sizeof(matrizespacio[0][0]));
-	cout<<"Seleccione su lugar de estacionamiento\nMostrando mapa de estacionamiento"<<endl;
-    cout<<"Lugares disponibles se denotan con letra D"<<endl<<"Lugares ocupados se denotan con letra R"<<endl;
-    cout<<"matrizespacio"<<endl;
-    for (int i= 0; i < filas; i++){
-        for (int j = 0; j < columnas; j++){
-             cout<<matrizespacio[i][j]<<" ";
-        }
-        cout << endl;
-    }
-    cin>>espacio;
-	return 0;
-} 
-
-int lugarbicimoto(){
-    int filas = (sizeof(matrizespacio)/sizeof(matrizespacio[0]));
-    int columnas = (sizeof(matrizespacio[0])/sizeof(matrizespacio[0][0]));
-	cout<<"Seleccione su lugar de estacionamiento\nMostrando mapa de estacionamiento"<<endl;
-    cout<<"Lugares disponibles se denotan con letra D"<<endl<<"Lugares ocupados se denotan con letra R"<<endl;
-    cout<<"matrizespacio"<<endl;
-    for (int i= 0; i < filas; i++){
-        for (int j = 0; j < columnas; j++){
-            cout<<matrizespacio[i][j]<<" ";
-        }
-        cout << endl;
-    }
-    cin>>espacio;
-	return 0;
-}
-
-int automovil(){ //Función que se encarga de pedir la placa del auto o camión.
+int automovil(){ //Función que se encarga de pedir la placa del auto o camión y lugar de parqueo.
 	int placa;
-    cout<<"Ingrese numero de placa de su vehiculo:"<<endl;
+	int filas = (sizeof(matrizautos)/sizeof(matrizautos[0]));
+    int columnas = (sizeof(matrizautos[0])/sizeof(matrizautos[0][0]));
+    cout<<"Ingrese numero de placa de su vehiculo y seleccion lugar de parqueo:"<<endl;
+    for (int i= 0; i < filas; i++){
+        for (int j = 0; j < columnas; j++){
+            cout<<setw(3)<<matrizautos[i][j]<<" ";
+        }
+        cout << endl;
+    }
 	cin>>placa;
-	lugarauto();
+	cin>>espacio;
 	return 0;
 }
 
-int bicimoto(){ //Función que se encarga de pedir la placa de la motocicleta o bicicleta.
+int bicimoto(){ //Función que se encarga de pedir la placa de la motocicleta o bicicleta y lugar de parqueo.
     int placa;
-    cout<<"Ingrese numero de placa de su motocicleta o bicicleta:"<<endl;
+    int filas = (sizeof(matrizbicimoto)/sizeof(matrizbicimoto[0]));
+    int columnas = (sizeof(matrizbicimoto[0])/sizeof(matrizbicimoto[0][0]));
+    cout<<"Ingrese numero de placa de su motocicleta o bicicleta y seleccione lugar de parqueo:"<<endl;
+    for (int i= 0; i < filas; i++){
+        for (int j = 0; j < columnas; j++){
+            cout<<setw(3)<<matrizbicimoto[i][j]<<" ";
+        }
+        cout << endl;
+    }
 	cin>>placa;
-	lugarbicimoto();
+	cin>>espacio;
 	return 0; 
 }
 
