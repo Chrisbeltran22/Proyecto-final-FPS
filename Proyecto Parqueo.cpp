@@ -1,12 +1,13 @@
 #include <iostream>
 #include <iomanip>
 #include <ctime>
-/*#include <stdlib.h>*/
+#include <stdlib.h>
 #include <fstream>
 
 using namespace std;
 
 int vehiculo;
+int placa;
 int espacio;
 int matrizautos[2][5]={{1,2,3,4,5},{6,7,8,9,10}};
 int matrizbicimoto[2][5]={{11,12,13,14,15},{16,17,18,19,20}};
@@ -26,6 +27,22 @@ int pago(){ //Función para cálcular el pago del usuario por el uso del parqueo.
 	sebas te toca hacer el cálculo.*/
 }
 
+void escribir1(){
+	ofstream archivo;
+	archivo.open("Historial de uso parqueo de autos y camiones.txt", ios::app); //Se crea y abre el archivo si este no existe ya.
+	if(archivo.fail()){
+		cout<<"No se pudo abrir el archivo";
+		exit(1);
+	}
+	cin>>placa;
+	cin>>espacio;
+	archivo<<placa;
+	cout<<endl;
+	archivo<<espacio;
+	cout<<endl;
+	archivo.close();
+}
+
 int automovil(){ //Función que se encarga de pedir la placa del auto o camión y lugar de parqueo.
 	int placa;
 	int filas = (sizeof(matrizautos)/sizeof(matrizautos[0]));
@@ -37,13 +54,28 @@ int automovil(){ //Función que se encarga de pedir la placa del auto o camión y 
         }
         cout << endl;
     }
-	cin>>placa;
-	cin>>espacio;
+    escribir1();
 	return 0;
 }
 
+void escribir2(){
+	ofstream archivo;
+	archivo.open("Historial de uso parqueo de motos y bicis.txt", ios::app); //Se crea y abre el archivo si este no existe ya.
+	if(archivo.fail()){
+		cout<<"No se pudo abrir el archivo";
+		exit(1);
+	}
+	cin>>placa;
+	cin>>espacio;
+	archivo<<placa;
+	cout<<endl;
+	archivo<<espacio;
+	cout<<endl;
+	archivo.close();
+}
+
 int bicimoto(){ //Función que se encarga de pedir la placa de la motocicleta o bicicleta y lugar de parqueo.
-    int placa;
+	int placa;
     int filas = (sizeof(matrizbicimoto)/sizeof(matrizbicimoto[0]));
     int columnas = (sizeof(matrizbicimoto[0])/sizeof(matrizbicimoto[0][0]));
     cout<<"Ingrese numero de placa de su motocicleta o bicicleta y seleccione lugar de parqueo:"<<endl;
@@ -53,8 +85,7 @@ int bicimoto(){ //Función que se encarga de pedir la placa de la motocicleta o b
         }
         cout << endl;
     }
-	cin>>placa;
-	cin>>espacio;
+	escribir2();
 	return 0; 
 }
 
