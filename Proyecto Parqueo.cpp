@@ -28,6 +28,8 @@ int pago(){ //Función para cálcular el pago del usuario por el uso del parqueo.
 }
 
 void escribir1(){
+	time_t now = time(0); //variables para capturar la hora real del sistema.
+	tm* time = localtime(&now);
 	ofstream archivo;
 	archivo.open("Historial de uso parqueo de autos y camiones.txt", ios::app); //Se crea y abre el archivo si este no existe ya.
 	if(archivo.fail()){
@@ -36,10 +38,10 @@ void escribir1(){
 	}
 	cin>>placa;
 	cin>>espacio;
-	archivo<<placa;
-	cout<<endl;
-	archivo<<espacio;
-	cout<<endl;
+	archivo<<"Placa del auto: "<<placa<<endl;
+	archivo<<"Lugar de estacionamiento: "<<espacio<<endl;
+	archivo<<"Hora de entrada: "<<time->tm_hour<<":"<<time->tm_min<<endl;
+	archivo<<endl;
 	archivo.close();
 }
 
@@ -59,6 +61,8 @@ int automovil(){ //Función que se encarga de pedir la placa del auto o camión y 
 }
 
 void escribir2(){
+	time_t now = time(0); //variables para capturar la hora real del sistema.
+	tm* time = localtime(&now);
 	ofstream archivo;
 	archivo.open("Historial de uso parqueo de motos y bicis.txt", ios::app); //Se crea y abre el archivo si este no existe ya.
 	if(archivo.fail()){
@@ -67,10 +71,10 @@ void escribir2(){
 	}
 	cin>>placa;
 	cin>>espacio;
-	archivo<<placa;
-	cout<<endl;
-	archivo<<espacio;
-	cout<<endl;
+	archivo<<"Placa del auto: "<<placa<<endl;
+	archivo<<"Lugar de estacionamiento: "<<espacio<<endl;
+	archivo<<"Hora de entrada: "<<time->tm_hour<<":"<<time->tm_min<<endl;
+	archivo<<endl;
 	archivo.close();
 }
 
