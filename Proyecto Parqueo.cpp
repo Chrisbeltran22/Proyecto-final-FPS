@@ -1,8 +1,8 @@
-#include <iostream>
-#include <iomanip>
-#include <ctime>
-#include <stdlib.h>
-#include <fstream>
+#include <iostream> //
+#include <iomanip> //
+#include <ctime> //
+#include <stdlib.h> //
+#include <fstream> //
 
 using namespace std;
 
@@ -12,37 +12,53 @@ int espacio;
 int matrizautos[2][5]={{1,2,3,4,5},{6,7,8,9,10}};
 int matrizbicimoto[2][5]={{11,12,13,14,15},{16,17,18,19,20}};
 
-int bicimotosalida(){
-	
-}
-
-int automovilsalida(){
-	
-}
-
 int pago(){ //Función para cálcular el pago del usuario por el uso del parqueo.
 	/*Esta casilla será para cálcular los pagos que los usuarios del parqueo deberán
-	cancelar al hacer uso de 0 a 15 minutos (Gratis), de 16 a30 minutos ($0.25),
+	cancelar al hacer uso de 0 a 15 minutos (Gratis), de 16 a 30 minutos ($0.25),
 	de 31 minutos a 1 hora ($0.50) y de 1 hora 1 minuto en adelante ($1 cada hora)
 	sebas te toca hacer el cálculo.*/
 }
 
-void escribir1(){
+void buscarPlaca(){ //Función para buscar placa en salida de vehículo.
+	int placa;
+	cout << "Ingrese la placa a buscar" << endl;
+	cin >> placa;
+	ifstream myFile;
+	myFile.open("parqueo.txt");
+	while(!myFile.eof()){
+		time_t now = time(0); 
+		tm* time = localtime(&now);
+		int placaAux;
+		string tipoV;
+		string hora;
+		int lugar;
+		myFile >> placaAux >> lugar >> tipoV >> hora;
+		if(placaAux == placa){
+			cout<< placaAux << " " << lugar << " " << tipoV << " " << hora << endl;
+			return;	
+		}
+	}
+	myFile.close();
+}
+
+void escribir1(int vehiculo){ //Archivo de historial de parqueo.
 	time_t now = time(0); //variables para capturar la hora real del sistema.
 	tm* time = localtime(&now);
 	ofstream archivo;
-	archivo.open("Historial de uso parqueo de autos y camiones.txt", ios::app); //Se crea y abre el archivo si este no existe ya.
+	archivo.open("parqueo.txt", ios::app); //Se crea y abre el archivo si este no existe ya.
 	if(archivo.fail()){
 		cout<<"No se pudo abrir el archivo";
-		exit(1);
+		return;
 	}
 	cin>>placa;
 	cin>>espacio;
-	archivo<<"Placa del auto: "<<placa<<endl;
-	archivo<<"Lugar de estacionamiento: "<<espacio<<endl;
-	archivo<<"Hora de entrada: "<<time->tm_hour<<":"<<time->tm_min<<endl;
+	archivo << placa << " " << espacio << " " << vehiculo << " "<< time->tm_hour<<":"<<time->tm_min;
 	archivo<<endl;
 	archivo.close();
+}
+
+int automovilsalida(){
+	buscarPlaca();
 }
 
 int automovil(){ //Función que se encarga de pedir la placa del auto o camión y lugar de parqueo.
@@ -56,26 +72,12 @@ int automovil(){ //Función que se encarga de pedir la placa del auto o camión y 
         }
         cout << endl;
     }
-    escribir1();
+    escribir1(1);
 	return 0;
 }
 
-void escribir2(){
-	time_t now = time(0); //variables para capturar la hora real del sistema.
-	tm* time = localtime(&now);
-	ofstream archivo;
-	archivo.open("Historial de uso parqueo de motos y bicis.txt", ios::app); //Se crea y abre el archivo si este no existe ya.
-	if(archivo.fail()){
-		cout<<"No se pudo abrir el archivo";
-		exit(1);
-	}
-	cin>>placa;
-	cin>>espacio;
-	archivo<<"Placa del auto: "<<placa<<endl;
-	archivo<<"Lugar de estacionamiento: "<<espacio<<endl;
-	archivo<<"Hora de entrada: "<<time->tm_hour<<":"<<time->tm_min<<endl;
-	archivo<<endl;
-	archivo.close();
+int bicimotosalida(){
+	buscarPlaca();
 }
 
 int bicimoto(){ //Función que se encarga de pedir la placa de la motocicleta o bicicleta y lugar de parqueo.
@@ -89,10 +91,9 @@ int bicimoto(){ //Función que se encarga de pedir la placa de la motocicleta o b
         }
         cout << endl;
     }
-	escribir2();
+	escribir1(2);
 	return 0; 
 }
-
 
 int main (){
 	int programa=0;
@@ -105,7 +106,6 @@ int main (){
 		cout<<"1- Proceso de entrada al parqueo"<<endl;
 		cout<<"2- Proceso de salida del parqueo"<<endl;
 		cin>>proceso;
-		
 		if(proceso==1){	//Proceso que comenzará si el usuario selecciona el uso del menú de entrada del parqueo.
 			cout<<"Seleccione su tipo de vehiculo por favor:"<<endl; 
 			cout<<"1- Automovil o Camion"<<endl<<"2- Motocicleta / Bicicleta"<<endl<<"3- Cancelar\n";
