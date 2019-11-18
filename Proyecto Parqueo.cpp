@@ -1,8 +1,8 @@
-#include <iostream> //
-#include <iomanip> //
-#include <ctime> //
-#include <stdlib.h> //
-#include <fstream> //
+#include <iostream> //Se utiliza para operaciones de entrada y salida.
+#include <iomanip> //Permite manipular el formateo de salida.
+#include <ctime> //Permite manipular y formatear la fecha y la hora del sistema.
+#include <stdlib.h> //Sirve para convertir un entero a cadena de caracteres.
+#include <fstream> //Permite la manipulación de archivos desde el programar, tanto leer como escribir en ellos.
 
 using namespace std;
 
@@ -12,25 +12,54 @@ int espacio;
 int matrizautos[2][5]={{1,2,3,4,5},{6,7,8,9,10}};
 int matrizbicimoto[2][5]={{11,12,13,14,15},{16,17,18,19,20}};
 
-int pago(){ //Función para cálcular el pago del usuario por el uso del parqueo.
-	/*Esta casilla será para cálcular los pagos que los usuarios del parqueo deberán
-	cancelar al hacer uso de 0 a 15 minutos (Gratis), de 16 a 30 minutos ($0.25),
-	de 31 minutos a 1 hora ($0.50) y de 1 hora 1 minuto en adelante ($1 cada hora)
-	sebas te toca hacer el cálculo.*/
+int pago(){
+	ifstream myFile; //Lectura de dato
+	myFile.open("parqueo.txt"); //Abrir archivo 
+	while(!myFile.eof()){ //Se ejecutará mientras el archivo no llegue a su última linea
+		time_t now = time(0); 
+		tm* time = localtime(&now);
+		int cobro;
+		string hora; //Hora actual del sistema
+		myFile >> hora;
+		if(&now<hora){
+			cout<<"No debe pagar nada"<<endl;
+			return;	
+		}
+	}
+	if(cobro<0.25){
+	    cout<<"no debe pagar nada";
+	    cout<<endl;
+	}
+	
+	if(cobro<0.5){
+	    cout<<"debe pagar $0.25";
+	    cout<<endl;
+	}
+	
+	if(cobro<1){ 
+	    cout<<"debe pagar $0.50";
+	    cout<<endl;
+	}
+	
+	if(cobro>=1){
+	    cout<<"debe pagar $1.00";
+	    cout<<endl;
+	}
+	myFile.close();
 }
 
 void buscarPlaca(){ //Función para buscar placa en salida de vehículo.
 	int placa;
 	cout << "Ingrese la placa a buscar" << endl;
 	cin >> placa;
-	ifstream myFile;
-	myFile.open("parqueo.txt");
-	while(!myFile.eof()){
+	ifstream myFile; //Lectura de dato
+	myFile.open("parqueo.txt"); //Abrir archivo 
+	while(!myFile.eof()){ //Se ejecutará mientras el archivo no llegue a su última linea
 		time_t now = time(0); 
 		tm* time = localtime(&now);
 		int placaAux;
-		string tipoV;
-		string hora;
+		string tipoV; //Tipo de vehículo
+		string hora; //Hora actual del sistema
 		int lugar;
 		myFile >> placaAux >> lugar >> tipoV >> hora;
 		if(placaAux == placa){
@@ -39,9 +68,12 @@ void buscarPlaca(){ //Función para buscar placa en salida de vehículo.
 		}
 	}
 	myFile.close();
+	pago();
 }
 
 void escribir1(int vehiculo){ //Archivo de historial de parqueo.
+	int placa;
+	int espacioP;
 	time_t now = time(0); //variables para capturar la hora real del sistema.
 	tm* time = localtime(&now);
 	ofstream archivo;
@@ -51,32 +83,31 @@ void escribir1(int vehiculo){ //Archivo de historial de parqueo.
 		return;
 	}
 	cin>>placa;
-	cin>>espacio;
+	cin>>espacioP;
 	archivo << placa << " " << espacio << " " << vehiculo << " "<< time->tm_hour<<":"<<time->tm_min;
 	archivo<<endl;
 	archivo.close();
 }
 
-int automovilsalida(){
+int automovilsalida(){  //Función de salida del parqueo para autos y camiones.
 	buscarPlaca();
 }
 
 int automovil(){ //Función que se encarga de pedir la placa del auto o camión y lugar de parqueo.
-	int placa;
 	int filas = (sizeof(matrizautos)/sizeof(matrizautos[0]));
     int columnas = (sizeof(matrizautos[0])/sizeof(matrizautos[0][0]));
     cout<<"Ingrese numero de placa de su vehiculo y seleccion lugar de parqueo:"<<endl;
     for (int i= 0; i < filas; i++){
         for (int j = 0; j < columnas; j++){
-            cout<<setw(3)<<matrizautos[i][j]<<" ";
+            cout<<setw(3)<<" | "<<matrizautos[i][j]<<" | ";
         }
-        cout << endl;
+        cout<<endl<<endl;
     }
     escribir1(1);
 	return 0;
 }
 
-int bicimotosalida(){
+int bicimotosalida(){ //Función de salida del parqueo para motocicletas y bicicletas.
 	buscarPlaca();
 }
 
